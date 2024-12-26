@@ -28,7 +28,7 @@ export default function MobileNav() {
                         <span></span>
                         <SheetClose asChild>
                             <Button variant='ghost' className=''>
-                                <X className='h-4 w-4 text-slate-50' />
+                                <X />
                             </Button>
                         </SheetClose>
                     </SheetHeader>
