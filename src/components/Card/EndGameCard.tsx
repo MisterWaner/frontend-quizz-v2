@@ -6,6 +6,7 @@ import {
     CardFooter,
 } from '@/components/ui/card';
 import SaveScoreModal from '../Modals/SaveScoreModal';
+import EndedDiscoveryModal from '../Modals/EndedDiscoveryModal';
 
 export default function EndGameCard() {
     return (
@@ -22,6 +23,7 @@ export default function EndGameCard() {
             </CardContent>
             <CardFooter className='justify-end'>
                 <SaveScoreModal />
+                <EndedDiscoveryModal />
             </CardFooter>
         </Card>
     );
