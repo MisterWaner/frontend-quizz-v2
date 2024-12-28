@@ -1,3 +1,13 @@
+import SignInCard from "@/components/Cards/SignInCard";
+import ContentSection from "@/components/ContentSection";
+import Wrapper from "@/components/Wrapper";
+
 export default function SignIn() {
-    return <div>SignIn</div>;
+    return <Wrapper>
+        <ContentSection>
+            <div className='flex flex-col justify-center items-center'>
+                <SignInCard />
+            </div>
+        </ContentSection>
+    </Wrapper>;
 }

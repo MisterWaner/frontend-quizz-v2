@@ -2,8 +2,8 @@ import { useParams } from 'react-router';
 
 import Wrapper from '@/components/Wrapper';
 import ContentSection from '@/components/ContentSection';
-import QuestionCard from '@/components/Card/QuestionCard';
-import EndGameCard from '@/components/Card/EndGameCard';
+import QuestionCard from '@/components/Cards/QuestionCard';
+import EndGameCard from '@/components/Cards/EndGameCard';
 
 export default function Quiz() {
     const { type } = useParams();
