@@ -7,11 +7,14 @@ import {
     DropdownMenuItem,
 } from './ui/dropdown-menu';
 
+import { useQuizStore } from '@/store/QuizStore';
 import { subjectSelectorData } from '@/lib/subject-selector-data';
 import { Subject } from '@/lib/types';
 
 export default function SubjectSelector() {
     const subjectSelector = subjectSelectorData;
+
+    const generateQuestion = useQuizStore((state) => state.generateQuestion);
 
     return (
         <div className='mt-4 grid grid-cols-2 gap-4 md:w-2/4'>
@@ -26,7 +29,10 @@ export default function SubjectSelector() {
                                 <Link
                                     to={`/jouer/${path}`}
                                     className='w-full'
-                                    onClick={() => console.log(type)}
+                                    onClick={() => {
+                                        console.log(type);
+                                        generateQuestion(type);
+                                    }}
                                 >
                                     {label}
                                 </Link>

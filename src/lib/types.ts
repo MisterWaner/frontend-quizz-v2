@@ -4,3 +4,9 @@ export type Subject = {
     path: string;
     type: string;
 }
+
+export type Question = {
+    id: number;
+    label: string;
+    correctAnswer: number | string;
+};
