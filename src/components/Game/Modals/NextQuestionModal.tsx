@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from 'react';
 import { SendHorizonal } from 'lucide-react';
 import {
     AlertDialog,
@@ -18,22 +19,44 @@ export default function NextQuestionModal({
 }: {
     handleSetResetTimer: () => void;
 }) {
-    const { handleNextQuestion, checkUserAnswer } = useQuizStore();
+    const { handleNextQuestion, checkUserAnswer, incrementProgress } =
+        useQuizStore();
 
     const dialogTitle = useQuizStore((state) => state.dialogTitle);
     const dialogTitleStyle = useQuizStore((state) => state.dialogTitleStyle);
     const dialogActionStyle = useQuizStore((state) => state.dialogActionStyle);
     const userAnswer = useQuizStore((state) => state.userAnswer);
 
-    function handleSubmit() {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+    const handleSubmit = useCallback(() => {
         checkUserAnswer(userAnswer);
         useQuizStore.setState({
             userAnswer: '',
         });
-    }
+        incrementProgress();
+    }, [checkUserAnswer, userAnswer, incrementProgress]);
+
+    const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                setIsModalOpen(true);
+                handleSubmit();
+            }
+        },
+        [handleSubmit]
+    );
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
+
 
     return (
-        <AlertDialog>
+        <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <AlertDialogTrigger asChild>
                 <Button className='font-semibold w-2/6' onClick={handleSubmit}>
                     Valider

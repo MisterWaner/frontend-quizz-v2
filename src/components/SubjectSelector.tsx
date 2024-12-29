@@ -15,6 +15,7 @@ export default function SubjectSelector() {
     const subjectSelector = subjectSelectorData;
 
     const generateQuestion = useQuizStore((state) => state.generateQuestion);
+    const setTimer = useQuizStore((state) => state.setTimer);
 
     return (
         <div className='mt-4 grid grid-cols-2 gap-4 md:w-2/4'>
@@ -31,6 +32,7 @@ export default function SubjectSelector() {
                                     className='w-full'
                                     onClick={() => {
                                         console.log(type);
+                                        setTimer(15);
                                         generateQuestion(type);
                                     }}
                                 >

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import {
     AlertDialog,
     AlertDialogTrigger,
@@ -11,7 +12,19 @@ import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
 import { List } from 'lucide-react';
 
+import { useQuizStore } from '@/store/QuizStore';
+
 export default function SaveScoreModal() {
+    const {resetScore, resetTimer, resetProgress} = useQuizStore();
+    const navigate = useNavigate();
+
+    function handleSaveScore() {
+        resetScore();
+        resetTimer();
+        resetProgress();
+        navigate('/jouer');
+    }
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -33,7 +46,7 @@ export default function SaveScoreModal() {
                         </Button>
                     </AlertDialogAction>
                     <AlertDialogAction asChild>
-                        <Button className='font-semibold w-3/6'>
+                        <Button className='font-semibold w-3/6' onClick={() => handleSaveScore()}>
                             Tous les quizz
                             <List className='ml-2 h-4 w-4' />
                         </Button>

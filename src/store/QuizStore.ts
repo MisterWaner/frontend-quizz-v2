@@ -5,13 +5,11 @@ export type QuizState = {
     label: string;
     isSelected: boolean;
     type: string;
-    questions:
-        | {
-              id: number;
-              label: string | null;
-              correctAnswer: number | string | null;
-          }[]
-        | null;
+    questions: {
+        id: number;
+        label: string;
+        correctAnswer: number | string;
+    }[] | null;
     userAnswer: number | string;
     currentQuestionIndex: number;
     totalQuestions: number;
@@ -38,9 +36,11 @@ type QuizAction = {
     resetProgress: () => void;
     incrementScore: () => void;
     resetScore: () => void;
-    startTimer: () => void;
+    setTimer: (timer: number) => void;
+    startTimer: (timer: number) => void;
     stopTimer: () => void;
     resetTimer: () => void;
+    decrementTimer: () => void;
 };
 
 export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
@@ -63,7 +63,24 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
     score: 0,
     timer: 15,
     timerIsRunning: false,
-
+    setTimer(timer: number) {
+        set({ timer });
+    },
+    startTimer(timer: number) {
+        set({ timerIsRunning: true, timer: timer });
+    },
+    stopTimer() {
+        set({ timerIsRunning: false });
+    },
+    resetTimer() {
+        set({ timer: 15, timerIsRunning: false });
+    },
+    decrementTimer() {
+        const { timer, timerIsRunning } = get();
+        if (timerIsRunning && timer > 0) {
+            set({ timer: timer - 1 });
+        }
+    },
     // Questions
     async generateQuestion(type) {
         try {
@@ -89,7 +106,8 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
         }
     },
     checkUserAnswer(userAnswer) {
-        const { currentQuestionIndex, questions } = get();
+        const { currentQuestionIndex, questions, timer, score, stopTimer, progress, totalProgress } =
+            get();
         if (questions && currentQuestionIndex < questions.length - 1) {
             const currentQuestion = questions[currentQuestionIndex];
             if (currentQuestion.correctAnswer === userAnswer) {
@@ -98,6 +116,7 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
                     dialogTitleStyle: 'text-green-500',
                     dialogActionStyle:
                         'bg-green-500 text-slate-50 hover:bg-green-500/90',
+                    score: score + 1,
                 });
             } else if (currentQuestion.correctAnswer !== userAnswer) {
                 set({
@@ -106,28 +125,33 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
                     dialogActionStyle:
                         'bg-red-500 text-slate-50 hover:bg-red-500/90',
                 });
+            } else {
+                set({
+                    dialogTitle: '',
+                    dialogTitleStyle: '',
+                    dialogActionStyle: '',
+                });
             }
-        }
-        return false;
-    },
 
-    // Timer
-    startTimer: () => {
-        const {timer, timerIsRunning} = get();
-        if (timerIsRunning && timer > 0) {
-            const intervalId = setInterval(() => {
-                set({ timer: timer - 1 });
-            }, 1000);
+            if (!userAnswer && timer === 0) {
+                set({
+                    dialogTitle: `Dommage, le temps est écoulé. La bonne réponse est ${currentQuestion.correctAnswer}`,
+                    dialogTitleStyle: 'text-red-500',
+                    dialogActionStyle:
+                        'bg-red-500 text-slate-50 hover:bg-red-500/90',
+                });
+            }
 
-            return () => clearInterval(intervalId);
+            if (progress === totalProgress) {
+                set({
+                    dialogTitle: 'Bravo ! Tu as terminé le quizz !',
+                    dialogTitleStyle: 'text-green-500',
+                    dialogActionStyle:
+                        'bg-green-500 text-slate-50 hover:bg-green-500/90',
+                });
+            }
+            stopTimer();
         }
-        set({ timerIsRunning: true, timer: 15 });
-    },
-    stopTimer: () => {
-        set({ timerIsRunning: false });
-    },
-    resetTimer: () => {
-        set({ timer: 15 });
     },
 
     // Progress and Score

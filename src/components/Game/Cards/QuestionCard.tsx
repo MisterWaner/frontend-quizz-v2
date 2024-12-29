@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
     Card,
     CardHeader,
@@ -8,15 +9,33 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useQuizStore } from '@/store/QuizStore';
-import useTimer from '@/hooks/useTimer';
 
 import NextQuestionModal from '@/components/Game/Modals/NextQuestionModal';
 
 export default function QuestionCard() {
-    const { questions, currentQuestionIndex } =
-        useQuizStore();
+    const {
+        questions,
+        currentQuestionIndex,
+        timer,
+        timerIsRunning,
+        startTimer,
+        resetTimer,
+        decrementTimer,
+    } = useQuizStore();
+    useQuizStore();
     const userAnswer = useQuizStore((state) => state.userAnswer);
-    const {resetTimer, setTimer, timer, timerIsRunning, startTimer, stopTimer} = useTimer();
+
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
+        if (timerIsRunning) {
+            intervalId = setInterval(() => {
+                decrementTimer();
+            }, 1000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [timerIsRunning, decrementTimer]);
 
     if (!questions || questions.length === 0) {
         return null;
@@ -29,24 +48,27 @@ export default function QuestionCard() {
         useQuizStore.setState({
             userAnswer: value,
         });
-        stopTimer();
     }
 
-    function handleSetResetTimer() {{
+    function handleSetResetTimer() {
         resetTimer();
-    }}
+    }
 
     return (
         <Card
             className='md:w-1/2 mx-auto mt-24'
-            onMouseEnter={() => startTimer()}
+            onMouseEnter={() => {
+                if (!timerIsRunning && timer > 0) {
+                    startTimer(timer);
+                }
+            }}
         >
             <CardHeader>
                 <CardTitle>Question {currentQuestionIndex + 1}</CardTitle>
             </CardHeader>
             <CardContent>
                 <p className='text-sm italic'>{currentQuestion?.label}</p>
-                <div className='grid grid-cols-3 items-center gap-4 mt-4' >
+                <div className='grid grid-cols-3 items-center gap-4 mt-4'>
                     <Label>Ta réponse :</Label>
                     <Input
                         type='text'
@@ -77,7 +99,7 @@ export default function QuestionCard() {
                 )}
             </CardContent>
             <CardFooter className='justify-end'>
-                <NextQuestionModal handleSetResetTimer = {handleSetResetTimer}/>
+                <NextQuestionModal handleSetResetTimer={handleSetResetTimer} />
             </CardFooter>
         </Card>
     );

@@ -12,16 +12,16 @@ import { useQuizStore } from '@/store/QuizStore';
 export default function Quiz() {
     const { type } = useParams();
 
-    const totalQuestions = useQuizStore((state) => state.totalQuestions);
-    const currentQuestionIndex = useQuizStore(
-        (state) => state.currentQuestionIndex
-    );
+    const progress = useQuizStore((state) => state.progress);
+    const totalProgress = useQuizStore((state) => state.totalProgress);
+    
+    console.log(progress, totalProgress);
     return (
         <Wrapper>
             <h2 className='text-3xl font-bold text-center'>
                 {type?.toLocaleUpperCase()}
             </h2>
-            {totalQuestions === currentQuestionIndex + 1 ? (
+            {progress === totalProgress ? (
                 <ContentSection>
                     <EndGameCard />
                 </ContentSection>
