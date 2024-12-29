@@ -18,6 +18,11 @@ export type QuizState = {
     dialogTitle: string;
     dialogTitleStyle: string;
     dialogActionStyle: string;
+    progress: number;
+    totalProgress: number;
+    score: number;
+    timer: number;
+    timerIsRunning: boolean;
 };
 
 type QuizAction = {
@@ -29,6 +34,13 @@ type QuizAction = {
     generateQuestion: (type: string) => Promise<void>;
     handleNextQuestion: () => void;
     checkUserAnswer: (userAnswer: QuizState['userAnswer']) => void;
+    incrementProgress: () => void;
+    resetProgress: () => void;
+    incrementScore: () => void;
+    resetScore: () => void;
+    startTimer: () => void;
+    stopTimer: () => void;
+    resetTimer: () => void;
 };
 
 export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
@@ -46,6 +58,13 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
     dialogTitle: '',
     dialogTitleStyle: 'text-neutral-950',
     dialogActionStyle: '',
+    progress: 0,
+    totalProgress: 100,
+    score: 0,
+    timer: 15,
+    timerIsRunning: false,
+
+    // Questions
     async generateQuestion(type) {
         try {
             const questions = (await getMathQuestions(type)).map(
@@ -90,5 +109,41 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
             }
         }
         return false;
+    },
+
+    // Timer
+    startTimer: () => {
+        const {timer, timerIsRunning} = get();
+        if (timerIsRunning && timer > 0) {
+            const intervalId = setInterval(() => {
+                set({ timer: timer - 1 });
+            }, 1000);
+
+            return () => clearInterval(intervalId);
+        }
+        set({ timerIsRunning: true, timer: 15 });
+    },
+    stopTimer: () => {
+        set({ timerIsRunning: false });
+    },
+    resetTimer: () => {
+        set({ timer: 15 });
+    },
+
+    // Progress and Score
+    incrementProgress: () => {
+        const { progress, totalProgress } = get();
+        for (let i = 0; i < totalProgress; i++) {
+            set({ progress: progress + 10 });
+        }
+    },
+    resetProgress: () => {
+        set({ progress: 0 });
+    },
+    incrementScore: () => {
+        set((state) => ({ score: state.score + 1 }));
+    },
+    resetScore: () => {
+        set((state) => ({ score: (state.score = 0) }));
     },
 }));

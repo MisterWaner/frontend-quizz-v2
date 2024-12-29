@@ -1,4 +1,4 @@
-import LoginCard from '@/components/Cards/LoginCard';
+import LoginCard from '@/components/Auth/Cards/LoginCard';
 import ContentSection from '@/components/ContentSection';
 import Wrapper from '@/components/Wrapper';
 

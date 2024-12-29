@@ -13,11 +13,12 @@ import { Button } from '@/components/ui/button';
 
 import { useQuizStore } from '@/store/QuizStore';
 
-export default function NextQuestionModal() {
-    const {
-        handleNextQuestion,
-        checkUserAnswer,
-    } = useQuizStore();
+export default function NextQuestionModal({
+    handleSetResetTimer,
+}: {
+    handleSetResetTimer: () => void;
+}) {
+    const { handleNextQuestion, checkUserAnswer } = useQuizStore();
 
     const dialogTitle = useQuizStore((state) => state.dialogTitle);
     const dialogTitleStyle = useQuizStore((state) => state.dialogTitleStyle);
@@ -51,7 +52,10 @@ export default function NextQuestionModal() {
                     <AlertDialogAction asChild className={dialogActionStyle}>
                         <Button
                             className='font-semibold w-2/6'
-                            onClick={handleNextQuestion}
+                            onClick={() => {
+                                handleNextQuestion();
+                                handleSetResetTimer();
+                            }}
                         >
                             Suivant
                             <SendHorizonal className='ml-2 h-4 w-4' />

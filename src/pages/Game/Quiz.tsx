@@ -2,8 +2,10 @@ import { useParams } from 'react-router';
 
 import Wrapper from '@/components/Wrapper';
 import ContentSection from '@/components/ContentSection';
-import QuestionCard from '@/components/Cards/QuestionCard';
-import EndGameCard from '@/components/Cards/EndGameCard';
+import QuestionCard from '@/components/Game/Cards/QuestionCard';
+import EndGameCard from '@/components/Game/Cards/EndGameCard';
+import ProgressBar from '@/components/Game/ProgressBar';
+import ScoreIndicator from '@/components/Game/ScoreIndicator';
 
 import { useQuizStore } from '@/store/QuizStore';
 
@@ -24,9 +26,15 @@ export default function Quiz() {
                     <EndGameCard />
                 </ContentSection>
             ) : (
-                <ContentSection>
-                    <QuestionCard />
-                </ContentSection>
+                <>
+                    <ContentSection>
+                        <QuestionCard />
+                    </ContentSection>
+                    <ContentSection>
+                        <ScoreIndicator />
+                        <ProgressBar />
+                    </ContentSection>
+                </>
             )}
         </Wrapper>
     );
