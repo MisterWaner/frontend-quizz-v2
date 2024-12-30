@@ -15,7 +15,7 @@ import { List } from 'lucide-react';
 import { useQuizStore } from '@/store/QuizStore';
 
 export default function SaveScoreModal() {
-    const {resetScore, resetTimer, resetProgress} = useQuizStore();
+    const { resetScore, resetTimer, resetProgress } = useQuizStore();
     const navigate = useNavigate();
 
     function handleSaveScore() {
@@ -46,7 +46,10 @@ export default function SaveScoreModal() {
                         </Button>
                     </AlertDialogAction>
                     <AlertDialogAction asChild>
-                        <Button className='font-semibold w-3/6' onClick={() => handleSaveScore()}>
+                        <Button
+                            className='font-semibold w-3/6'
+                            onClick={() => handleSaveScore()}
+                        >
                             Tous les quizz
                             <List className='ml-2 h-4 w-4' />
                         </Button>

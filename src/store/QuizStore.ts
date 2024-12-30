@@ -5,11 +5,13 @@ export type QuizState = {
     label: string;
     isSelected: boolean;
     type: string;
-    questions: {
-        id: number;
-        label: string;
-        correctAnswer: number | string;
-    }[] | null;
+    questions:
+        | {
+              id: number;
+              label: string;
+              correctAnswer: number | string;
+          }[]
+        | null;
     userAnswer: number | string;
     currentQuestionIndex: number;
     totalQuestions: number;
@@ -106,8 +108,13 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
         }
     },
     checkUserAnswer(userAnswer) {
-        const { currentQuestionIndex, questions, timer, score, stopTimer, progress, totalProgress } =
-            get();
+        const {
+            currentQuestionIndex,
+            questions,
+            timer,
+            stopTimer,
+            incrementScore,
+        } = get();
         if (questions && currentQuestionIndex < questions.length - 1) {
             const currentQuestion = questions[currentQuestionIndex];
             if (currentQuestion.correctAnswer === userAnswer) {
@@ -116,8 +123,8 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
                     dialogTitleStyle: 'text-green-500',
                     dialogActionStyle:
                         'bg-green-500 text-slate-50 hover:bg-green-500/90',
-                    score: score + 1,
                 });
+                incrementScore();
             } else if (currentQuestion.correctAnswer !== userAnswer) {
                 set({
                     dialogTitle: `Dommage, mauvaise réponse... La bonne réponse est ${currentQuestion.correctAnswer}`,
@@ -141,13 +148,32 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
                         'bg-red-500 text-slate-50 hover:bg-red-500/90',
                 });
             }
-
-            if (progress === totalProgress) {
+            stopTimer();
+        } else if (
+            questions &&
+            currentQuestionIndex === questions?.length - 1
+        ) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (currentQuestion.correctAnswer === userAnswer) {
                 set({
-                    dialogTitle: 'Bravo ! Tu as terminé le quizz !',
+                    dialogTitle: 'Bravo ! Bonne réponse !',
                     dialogTitleStyle: 'text-green-500',
                     dialogActionStyle:
                         'bg-green-500 text-slate-50 hover:bg-green-500/90',
+                });
+                incrementScore();
+            } else if (currentQuestion.correctAnswer !== userAnswer) {
+                set({
+                    dialogTitle: `Dommage, mauvaise réponse... La bonne réponse est ${currentQuestion.correctAnswer}`,
+                    dialogTitleStyle: 'text-red-500',
+                    dialogActionStyle:
+                        'bg-red-500 text-slate-50 hover:bg-red-500/90',
+                });
+            } else {
+                set({
+                    dialogTitle: '',
+                    dialogTitleStyle: '',
+                    dialogActionStyle: '',
                 });
             }
             stopTimer();

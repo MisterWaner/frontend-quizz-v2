@@ -54,7 +54,6 @@ export default function NextQuestionModal({
         };
     }, [handleKeyDown]);
 
-
     return (
         <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <AlertDialogTrigger asChild>

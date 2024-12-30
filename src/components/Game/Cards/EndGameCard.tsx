@@ -12,7 +12,7 @@ import { useQuizStore } from '@/store/QuizStore';
 
 export default function EndGameCard() {
     const score = useQuizStore((state) => state.score);
-    const questions = useQuizStore((state) => state.questions);
+
     return (
         <Card className='md:w-1/2 mx-auto mt-24'>
             <CardHeader>
@@ -22,7 +22,7 @@ export default function EndGameCard() {
             </CardHeader>
             <CardContent>
                 <p className='text-sm font-bold text-green-500'>
-                    Bravo John ! Tu as terminé le quiz ! Ton score est de {score}/{questions?.length}
+                    Bravo John ! Tu as terminé le quiz, ton score est de {score}/10 !
                 </p>
             </CardContent>
             <CardFooter className='justify-end'>

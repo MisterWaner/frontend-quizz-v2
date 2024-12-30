@@ -24,6 +24,7 @@ function App() {
                     <Route path='/inscription' element={<SignIn />} />
                     <Route path='/jouer/:type' element={<GameLayout />}>
                         <Route index element={<Quiz />} />
+                        
                     </Route>
                 </Route>
             </Routes>
