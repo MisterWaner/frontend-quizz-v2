@@ -20,8 +20,9 @@ export default function SignInForm() {
 
     return (
         <Form {...form}>
-            <form className='space-y-6'>
+            <form className='space-y-4'>
                 <FormField
+                    control={form.control}
                     name='username'
                     render={({ field }) => (
                         <FormItem>
@@ -38,6 +39,7 @@ export default function SignInForm() {
                     )}
                 />
                 <FormField
+                    control={form.control}
                     name='password'
                     render={({ field }) => (
                         <FormItem>
@@ -54,6 +56,7 @@ export default function SignInForm() {
                     )}
                 />
                 <FormField
+                    control={form.control}
                     name='confirmation'
                     render={({ field }) => (
                         <FormItem>

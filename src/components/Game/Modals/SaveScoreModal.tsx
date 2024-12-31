@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import {
     AlertDialog,
     AlertDialogTrigger,
@@ -15,14 +15,25 @@ import { List } from 'lucide-react';
 import { useQuizStore } from '@/store/QuizStore';
 
 export default function SaveScoreModal() {
-    const { resetScore, resetTimer, resetProgress } = useQuizStore();
+    const { resetScore, resetTimer, resetProgress, generateQuestion } =
+        useQuizStore();
     const navigate = useNavigate();
+    const { type } = useParams();
 
     function handleSaveScore() {
         resetScore();
         resetTimer();
         resetProgress();
         navigate('/jouer');
+    }
+
+    function handleReset() {
+        resetScore();
+        resetTimer();
+        resetProgress();
+        if (type) {
+            generateQuestion(type);
+        }
     }
 
     return (
@@ -40,7 +51,10 @@ export default function SaveScoreModal() {
                 </AlertDialogHeader>
                 <AlertDialogFooter className='flex flex-row gap-2'>
                     <AlertDialogAction asChild>
-                        <Button className='font-semibold w-3/6'>
+                        <Button
+                            className='font-semibold w-3/6'
+                            onClick={() => handleReset()}
+                        >
                             Recommencer
                             <RotateCcw className='ml-2 h-4 w-4' />
                         </Button>

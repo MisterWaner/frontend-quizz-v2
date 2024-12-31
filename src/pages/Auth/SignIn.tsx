@@ -1,15 +1,14 @@
 import SignInCard from '@/components/Auth/Cards/SignInCard';
 import ContentSection from '@/components/ContentSection';
-import Wrapper from '@/components/Wrapper';
 
 export default function SignIn() {
     return (
-        <Wrapper>
+        <div className='mt-28'>
             <ContentSection>
                 <div className='flex flex-col justify-center items-center'>
                     <SignInCard />
                 </div>
             </ContentSection>
-        </Wrapper>
+        </div>
     );
 }

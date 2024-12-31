@@ -16,16 +16,16 @@ export default function EndGameCard() {
     return (
         <Card className='md:w-1/2 mx-auto mt-24'>
             <CardHeader>
-                <CardTitle className='text-center text-lg uppercase text-green-500'>
+                <CardTitle className='text-center text-lg uppercase'>
                     Fin !
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <p className='text-sm font-bold text-green-500'>
+                <p className='font-bold'>
                     Bravo John ! Tu as terminé le quiz, ton score est de {score}/10 !
                 </p>
             </CardContent>
-            <CardFooter className='justify-end'>
+            <CardFooter className='flex gap-2'>
                 <SaveScoreModal />
                 <EndedDiscoveryModal />
             </CardFooter>

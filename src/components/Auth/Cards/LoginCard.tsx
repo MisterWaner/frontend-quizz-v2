@@ -8,7 +8,7 @@ export default function LoginCard() {
             <CardHeader className='w-full flex justify-center items-center'>
                 <CardTitle className='text-2xl font-bold'>Connexion</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className='w-4/5'>
                 <LoginForm />
                 <div className='mt-5'>
                     <p className='text-sm italic text-neutral-400'>

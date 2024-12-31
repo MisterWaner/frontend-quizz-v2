@@ -19,7 +19,15 @@ export default function Quiz() {
     return (
         <Wrapper>
             {progress === totalProgress ? (
-                <EndGameCard />
+                <>
+                    <ContentSection>
+                        <EndGameCard />
+                    </ContentSection>
+                    <ContentSection>
+                        <ScoreIndicator />
+                        <ProgressBar />
+                    </ContentSection>
+                </>
             ) : (
                 <>
                     <h2 className='text-3xl font-bold text-center'>

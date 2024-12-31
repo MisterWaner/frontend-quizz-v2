@@ -20,8 +20,9 @@ export default function LoginForm() {
 
     return (
         <Form {...form}>
-            <form className='space-y-6'>
+            <form className='space-y-4'>
                 <FormField
+                    control={form.control}
                     name='username'
                     render={({ field }) => (
                         <FormItem>
@@ -38,6 +39,7 @@ export default function LoginForm() {
                     )}
                 />
                 <FormField
+                    control={form.control}
                     name='password'
                     render={({ field }) => (
                         <FormItem>
@@ -53,8 +55,9 @@ export default function LoginForm() {
                         </FormItem>
                     )}
                 />
-                <div className="grid grid-cols-2 gap-4"><Button type='submit'>Se connecter</Button></div>
-                
+                <div className='grid grid-cols-2 gap-4'>
+                    <Button type='submit'>Se connecter</Button>
+                </div>
             </form>
         </Form>
     );

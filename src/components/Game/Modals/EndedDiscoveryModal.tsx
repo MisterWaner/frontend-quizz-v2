@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { LogIn, UserX } from 'lucide-react';
 import {
     AlertDialog,
@@ -13,6 +14,10 @@ import {
 import { Button } from '@/components/ui/button';
 
 export default function EndedDiscoveryModal() {
+
+    const navigate = useNavigate();
+
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -32,7 +37,7 @@ export default function EndedDiscoveryModal() {
                     <AlertDialogAction asChild>
                         <Button
                             className='font-semibold w-3/6 self-end'
-                            
+                            onClick={() => navigate('/inscription')}
                         >
                             Créer mon compte
                             <LogIn className='ml-2 h-4 w-4' />
@@ -42,7 +47,7 @@ export default function EndedDiscoveryModal() {
                         <Button
                             className='font-semibold w-3/6'
                             variant='destructive'
-                            
+                            onClick={() => navigate('/')}
                         >
                             Terminer
                             <UserX className='ml-2 h-4 w-4' />

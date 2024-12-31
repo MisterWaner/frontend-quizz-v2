@@ -10,7 +10,7 @@ export default function SignInCard() {
                     Inscription
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className='w-4/5'>
                 <SignInForm />
                 <div className='mt-5'>
                     <p className='text-sm italic text-neutral-400'>
