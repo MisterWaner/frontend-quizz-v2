@@ -41,7 +41,7 @@ const fakeData: User[] = [
     },
 ];
 
-export default function DailyRankingTable() {
+export default function GlobalRankingTable() {
     const users = fakeData.sort((a, b) => b.score - a.score);
     return (
         <Table className=''>

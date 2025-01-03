@@ -10,3 +10,10 @@ export type Question = {
     label: string;
     correctAnswer: number | string;
 };
+
+export type User = {
+    id: number;
+    username: string;
+    score: number;
+    isRegistered: 0 | 1;
+}
