@@ -3,7 +3,7 @@ export type Subject = {
     label: string;
     path: string;
     type: string;
-}
+};
 
 export type Question = {
     id: number;
@@ -12,8 +12,11 @@ export type Question = {
 };
 
 export type User = {
-    id: number;
-    username: string;
-    score: number;
-    isRegistered: 0 | 1;
-}
+    id?: number;
+    username?: string;
+    password?: string;
+    score?: number;
+    currentMonthScore?: number;
+    lastMonthScore?: number;
+    isRegistered?: boolean;
+};
