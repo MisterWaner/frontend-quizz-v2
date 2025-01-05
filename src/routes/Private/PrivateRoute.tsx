@@ -1,13 +1,14 @@
 import { Navigate } from 'react-router';
+import useAuthToken from '@/hooks/useAuthToken';
 
 export default function PrivateRoute({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const isConnected = true;
+    const { userInfo } = useAuthToken();
 
-    if (!isConnected) {
+    if (!userInfo) {
         return <Navigate to='/connexion' />;
     }
 

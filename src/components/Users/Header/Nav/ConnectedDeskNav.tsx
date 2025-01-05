@@ -5,32 +5,37 @@ import { DesktopNavButton } from '@/components/Header/Nav/NavButtons';
 import { Button } from '@/components/ui/button';
 import useAuthToken from '@/hooks/useAuthToken';
 import { updateCurrentMonthScore } from '@/services/sendDataToBack';
+import { logoutUser } from '@/services/authToBack';
 
 export default function ConnectedDeskNav() {
     const { userInfo } = useAuthToken();
 
     async function handleLogout() {
-        try {
-            const score = Number(localStorage.getItem('score'));
-            const currentMonthScore: number = userInfo?.currentMonthScore ?? 0;
-            const response = await updateCurrentMonthScore(
-                score,
-                currentMonthScore
-            );
+        if (userInfo) {
+            try {
+                await logoutUser(userInfo);
+                const score = Number(localStorage.getItem('score'));
+                const currentMonthScore: number =
+                    userInfo?.currentMonthScore ?? 0;
+                const response = await updateCurrentMonthScore(
+                    score,
+                    currentMonthScore
+                );
 
-            if (response.ok) {
-                Cookies.remove('token');
-                localStorage.removeItem('score');
-            } else {
-                throw new Error(
-                    'Une erreur est survenue lors de la déconnexion'
+                if (response.ok) {
+                    Cookies.remove('token');
+                    localStorage.removeItem('score');
+                } else {
+                    throw new Error(
+                        'Une erreur est survenue lors de la déconnexion'
+                    );
+                }
+            } catch (error) {
+                console.error(
+                    'Une erreur est survenue lors de la déconnexion',
+                    error
                 );
             }
-        } catch (error) {
-            console.error(
-                'Une erreur est survenue lors de la déconnexion',
-                error
-            );
         }
     }
     return (
