@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router';
 import Wrapper from '@/components/Wrapper';
-import Header from '@/components/Header/Header';
+import UsedHeader from '@/components/Header/UsedHeader';
 
 export default function MainLayout() {
     return (
         <>
-            <Header />
+            <UsedHeader />
             <Wrapper>
                 <Outlet />
             </Wrapper>

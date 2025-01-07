@@ -1,7 +1,7 @@
 import { useMediaQuery } from 'usehooks-ts';
 
-import ConnectedDeskNav from './Nav/ConnectedDeskNav';
-import ConnectedMobileNav from './Nav/ConnectedMobileNav';
+import ConnectedDeskNav from './ConnectedNav/ConnectedDeskNav';
+import ConnectedMobileNav from './ConnectedNav/ConnectedMobileNav';
 
 export default function ConnectedHeader() {
     return (

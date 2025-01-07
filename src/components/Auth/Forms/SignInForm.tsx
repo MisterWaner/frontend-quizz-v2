@@ -114,6 +114,7 @@ export default function SignInForm() {
                         type='submit'
                         className='col-start-2'
                         onClick={() => setShowRegisterDialog(true)}
+                        disabled={!form.formState.isValid}
                     >
                         S'inscrire
                     </Button>

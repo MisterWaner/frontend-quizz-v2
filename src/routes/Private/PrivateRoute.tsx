@@ -1,14 +1,14 @@
 import { Navigate } from 'react-router';
-import useAuthToken from '@/hooks/useAuthToken';
+import Cookies from 'js-cookie';
 
 export default function PrivateRoute({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const { userInfo } = useAuthToken();
-
-    if (!userInfo) {
+    const token = Cookies.get('token');
+    
+    if (!token) {
         return <Navigate to='/connexion' />;
     }
 

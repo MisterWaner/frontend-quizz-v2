@@ -94,9 +94,11 @@ export default function LoginForm() {
                     )}
                 />
                 <div className='grid grid-cols-2 gap-4'>
+                    
                     <Button
                         type='submit'
                         onClick={() => setShowLoginDialog(true)}
+                        disabled={!form.formState.isValid}
                     >
                         Se connecter
                     </Button>

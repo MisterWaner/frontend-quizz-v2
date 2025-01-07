@@ -28,7 +28,6 @@ export default function LoginModal({
 }) {
     const navigate = useNavigate();
 
-    console.log(loginStatus, loginMessage);
     const handleNavigate = () => {
         if (loginStatus === 'Connexion réussie') {
             navigate('/compte');

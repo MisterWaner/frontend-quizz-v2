@@ -55,7 +55,7 @@ export async function loginUser(user: User) {
                 currentMonthScore,
             };
         } else {
-            throw new Error('Une erreur est survenue lors de la connexion');
+            throw new Error('Une erreur est survenue lors de la connexion au serveur');
         }
     } catch (error) {
         console.error('Une erreur est survenue', error);
