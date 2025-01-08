@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -13,15 +12,18 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import RegisterModal from '@/components/Auth/Modals/RegisterModal';
-import { registerUser } from '@/services/authToBack';
+import { useAuthStore } from '@/store/AuthStore';
 import { registerSchema } from '@/lib/zod-schemas';
 
 export default function SignInForm() {
-    const [registerStatus, setRegisterStatus] = useState<string>('');
-    const [registerMessage, setRegisterMessage] = useState<string>('');
-    const [showRegisterDialog, setShowRegisterDialog] =
-        useState<boolean>(false);
-    const [colorTitle, setColorTitle] = useState<string>('');
+    const {
+        registerUser,
+        registerStatus,
+        registerMessage,
+        showRegisterDialog,
+        colorTitle,
+        setShowRegisterDialog,
+    } = useAuthStore();
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -35,18 +37,10 @@ export default function SignInForm() {
     const handleRegister = async (values: z.infer<typeof registerSchema>) => {
         try {
             await registerUser(values);
-            setColorTitle('text-green-500');
-            setRegisterStatus('Inscription réussie');
-            setRegisterMessage('Bravo tu fais maintenant parti des ninjas !');
-            setShowRegisterDialog(true);
             console.log(values);
         } catch (error) {
             if (error instanceof Error) {
                 console.error(error, "Erreur d'envoie des données au back");
-                setColorTitle('text-red-500');
-                setRegisterStatus("Erreur d'enregistrement");
-                setRegisterMessage(error.message);
-                setShowRegisterDialog(true);
                 console.log(values);
             }
         }
@@ -113,7 +107,6 @@ export default function SignInForm() {
                     <Button
                         type='submit'
                         className='col-start-2'
-                        onClick={() => setShowRegisterDialog(true)}
                         disabled={!form.formState.isValid}
                     >
                         S'inscrire

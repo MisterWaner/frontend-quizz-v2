@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -13,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import LoginModal from '@/components/Auth/Modals/LoginModal';
-import { loginUser } from '@/services/authToBack';
+import { useAuthStore } from '@/store/AuthStore';
 import { loginSchema } from '@/lib/zod-schemas';
 
 export default function LoginForm() {
@@ -21,11 +20,15 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
     });
 
-    const [loginStatus, setLoginStatus] = useState<string>('');
-    const [loginMessage, setLoginMessage] = useState<string>('');
-    const [buttonColor, setButtonColor] = useState<string>('');
-    const [showLoginDialog, setShowLoginDialog] = useState<boolean>(false);
-    const [colorTitle, setColorTitle] = useState<string>('');
+    const {
+        loginUser,
+        loginStatus,
+        loginMessage,
+        showLoginDialog,
+        colorTitle,
+        buttonColor,
+        setShowLoginDialog,
+    } = useAuthStore();
 
     const resetForm = (): void =>
         form.reset({
@@ -36,19 +39,9 @@ export default function LoginForm() {
     const handleLogin = async (data: z.infer<typeof loginSchema>) => {
         try {
             await loginUser(data);
-            setColorTitle('text-green-500');
-            setButtonColor('bg-green-500 hover:bg-green-500/90');
-            setLoginStatus('Connexion réussie');
-            setLoginMessage('Bravo tu es maintenant connecté !');
-            setShowLoginDialog(true);
         } catch (error) {
             if (error instanceof Error) {
                 console.error(error, "Erreur d'envoie des données au back");
-                setColorTitle('text-red-500');
-                setButtonColor('bg-red-500 hover:bg-red-500/90');
-                setLoginStatus('Erreur de connexion');
-                setLoginMessage(error.message);
-                setShowLoginDialog(true);
             }
         }
     };
@@ -94,10 +87,8 @@ export default function LoginForm() {
                     )}
                 />
                 <div className='grid grid-cols-2 gap-4'>
-                    
                     <Button
                         type='submit'
-                        onClick={() => setShowLoginDialog(true)}
                         disabled={!form.formState.isValid}
                     >
                         Se connecter
