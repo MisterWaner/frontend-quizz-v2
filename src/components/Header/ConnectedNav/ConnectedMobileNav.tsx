@@ -14,10 +14,12 @@ import { MobileNavButton } from '@/components/Header/Nav/NavButtons';
 import { connectedMenuLinks } from '@/lib/menu-links';
 import useAuthToken from '@/hooks/useAuthToken';
 import { updateCurrentMonthScore } from '@/services/sendDataToBack';
-import { logoutUser } from '@/services/authToBack';
+import { useAuthStore } from '@/store/AuthStore';
+
 
 export default function ConnectedMobileNav() {
     const { userInfo } = useAuthToken();
+    const { logoutUser } = useAuthStore();
     const navigate = useNavigate();
 
     const handleUpdateCurrentMonthScore = async () => {

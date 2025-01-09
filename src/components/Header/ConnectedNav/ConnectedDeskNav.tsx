@@ -5,10 +5,11 @@ import { DesktopNavButton } from '@/components/Header/Nav/NavButtons';
 import { Button } from '@/components/ui/button';
 import useAuthToken from '@/hooks/useAuthToken';
 import { updateCurrentMonthScore } from '@/services/sendDataToBack';
-import { logoutUser } from '@/services/authToBack';
+import { useAuthStore } from '@/store/AuthStore';
 
 export default function ConnectedDeskNav() {
     const { userInfo } = useAuthToken();
+    const { logoutUser } = useAuthStore();
 
     async function handleLogout() {
         if (userInfo) {
