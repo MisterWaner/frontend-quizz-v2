@@ -12,11 +12,23 @@ import {
     AlertDialogDescription,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { useQuizStore } from '@/store/QuizStore';
 
 export default function EndedDiscoveryModal() {
-
     const navigate = useNavigate();
+    const { resetProgress, resetScore } = useQuizStore();
 
+    function handleRegister() {
+        resetProgress();
+        resetScore();
+        navigate('/inscription');
+    }
+
+    function handleCancel() {
+        resetProgress();
+        resetScore();
+        navigate('/');
+    }
 
     return (
         <AlertDialog>
@@ -37,7 +49,7 @@ export default function EndedDiscoveryModal() {
                     <AlertDialogAction asChild>
                         <Button
                             className='font-semibold w-3/6 self-end'
-                            onClick={() => navigate('/inscription')}
+                            onClick={() => handleRegister()}
                         >
                             Créer mon compte
                             <LogIn className='ml-2 h-4 w-4' />
@@ -47,7 +59,7 @@ export default function EndedDiscoveryModal() {
                         <Button
                             className='font-semibold w-3/6'
                             variant='destructive'
-                            onClick={() => navigate('/')}
+                            onClick={() => handleCancel()}
                         >
                             Terminer
                             <UserX className='ml-2 h-4 w-4' />

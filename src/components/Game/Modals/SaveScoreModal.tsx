@@ -9,25 +9,45 @@ import {
     AlertDialogAction,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { RotateCcw } from 'lucide-react';
-import { List } from 'lucide-react';
+import { updateScore } from '@/services/sendDataToBack';
+import { RotateCcw, List} from 'lucide-react';
 
 import { useQuizStore } from '@/store/QuizStore';
 
 export default function SaveScoreModal() {
-    const { resetScore, resetTimer, resetProgress, generateQuestion } =
+    const { resetScore, resetTimer, resetProgress, generateQuestion, incrementSessionScore } =
         useQuizStore();
+    const score = useQuizStore((state) => state.score);
     const navigate = useNavigate();
     const { type } = useParams();
 
+    function handleSaveScoreInLocalStorage() {
+        let savedScore = localStorage.getItem('score');
+        if (savedScore) {
+            const numberSavedScore = Number(savedScore);
+            savedScore = (numberSavedScore + score).toString();
+            localStorage.setItem('score', savedScore);
+            return savedScore;
+        } else {
+            return localStorage.setItem('score', score.toString());
+        }
+    }
+
     function handleSaveScore() {
+        console.log(score);
+        incrementSessionScore();
+        handleSaveScoreInLocalStorage();
+        updateScore(score);
         resetScore();
         resetTimer();
         resetProgress();
         navigate('/jouer');
     }
 
-    function handleReset() {
+    function handleRestart() {
+        incrementSessionScore();
+        handleSaveScoreInLocalStorage();
+        updateScore(score);
         resetScore();
         resetTimer();
         resetProgress();
@@ -53,7 +73,7 @@ export default function SaveScoreModal() {
                     <AlertDialogAction asChild>
                         <Button
                             className='font-semibold w-3/6'
-                            onClick={() => handleReset()}
+                            onClick={() => handleRestart()}
                         >
                             Recommencer
                             <RotateCcw className='ml-2 h-4 w-4' />

@@ -21,6 +21,7 @@ export type QuizState = {
     progress: number;
     totalProgress: number;
     score: number;
+    sessionScore: number;
     timer: number;
     timerIsRunning: boolean;
 };
@@ -37,6 +38,7 @@ type QuizAction = {
     incrementProgress: () => void;
     resetProgress: () => void;
     incrementScore: () => void;
+    incrementSessionScore: () => void;
     resetScore: () => void;
     setTimer: (timer: number) => void;
     startTimer: (timer: number) => void;
@@ -63,6 +65,7 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
     progress: 0,
     totalProgress: 100,
     score: 0,
+    sessionScore: 0,
     timer: 15,
     timerIsRunning: false,
     setTimer(timer: number) {
@@ -180,7 +183,7 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
         }
     },
 
-    // Progress and Score
+    // Progress
     incrementProgress: () => {
         const { progress, totalProgress } = get();
         for (let i = 0; i < totalProgress; i++) {
@@ -190,8 +193,14 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
     resetProgress: () => {
         set({ progress: 0 });
     },
+
+    // Score
     incrementScore: () => {
         set((state) => ({ score: state.score + 1 }));
+    },
+    incrementSessionScore: () => {
+        const { score } = get();
+        set((state) => ({ sessionScore: state.sessionScore + score }));
     },
     resetScore: () => {
         set((state) => ({ score: (state.score = 0) }));
