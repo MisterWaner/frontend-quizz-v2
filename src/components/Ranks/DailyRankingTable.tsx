@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
     Table,
     TableBody,
@@ -7,42 +8,24 @@ import {
     TableHeader,
 } from '@/components/ui/table';
 import { User } from '@/lib/types';
-
-const fakeData: User[] = [
-    {
-        id: 1,
-        username: 'John',
-        score: 10,
-        isRegistered: 1,
-    },
-    {
-        id: 2,
-        username: 'Sam',
-        score: 20,
-        isRegistered: 1,
-    },
-    {
-        id: 3,
-        username: 'Tom',
-        score: 30,
-        isRegistered: 0,
-    },
-    {
-        id: 4,
-        username: 'Sarah',
-        score: 25,
-        isRegistered: 1,
-    },
-    {
-        id: 5,
-        username: 'Mike',
-        score: 32,
-        isRegistered: 0,
-    },
-];
+import { getDailyScores } from '@/services/getScoresData';
 
 export default function DailyRankingTable() {
-    const users = fakeData.sort((a, b) => b.score - a.score);
+    const [usersDailyScores, setUsersDailyScores] = useState<User[]>([]);
+
+    useEffect(() => {
+        getDailyScores()
+            .then((data) => {
+                setUsersDailyScores(data);
+            })
+            .catch((error) => {
+                console.error(
+                    'Une erreur est survenue lors de la récupération des scores',
+                    error
+                );
+            });
+    }, []);
+
     return (
         <Table className=''>
             <TableHeader>
@@ -55,13 +38,11 @@ export default function DailyRankingTable() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {users.map((user) => (
-                    <TableRow key={user.id}>
-                        <TableCell className='text-center'>{user.id}</TableCell>
+                {usersDailyScores.map((user, idx) => (
+                    <TableRow key={idx}>
+                        <TableCell className='text-center'>{idx + 1}</TableCell>
                         <TableCell className='text-center'>
-                            {user.isRegistered === 1
-                                ? user.username
-                                : `user-${user.username}`}
+                            {user.username}
                         </TableCell>
                         <TableCell className='text-center'>
                             {user.score}

@@ -12,7 +12,7 @@ export type Question = {
 };
 
 export type User = {
-    id?: number;
+    id?: string;
     username?: string;
     password?: string;
     score?: number;
