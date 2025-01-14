@@ -53,7 +53,6 @@ export async function loginUser(user: User) {
                 isRegistered,
                 score,
                 currentMonthScore,
-                token,
             };
         } else {
             throw new Error('Une erreur est survenue lors de la connexion au serveur');

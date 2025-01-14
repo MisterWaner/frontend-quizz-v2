@@ -18,6 +18,7 @@ export async function updateScore(score: number) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({ score, id }),
         });
@@ -58,6 +59,7 @@ export async function updateCurrentMonthScore(
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ score, currentMonthScore, id }),
             }

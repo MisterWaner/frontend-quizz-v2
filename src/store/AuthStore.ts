@@ -16,8 +16,6 @@ export type AuthState = {
     showRegisterDialog: boolean;
     colorTitle: string;
     buttonColor: string;
-    token: string | null;
-    userInfo: User | null;
 };
 
 type AuthAction = {
@@ -33,8 +31,6 @@ type AuthAction = {
 export const useAuthStore = create<AuthState & AuthAction>()(
     persist(
         (set) => ({
-            token: null,
-            userInfo: null,
             loginStatus: '',
             loginMessage: '',
             registerStatus: '',
@@ -46,10 +42,8 @@ export const useAuthStore = create<AuthState & AuthAction>()(
 
             loginUser: async (user: User) => {
                 try {
-                    const response = await loginApi(user);
+                    await loginApi(user);
                     set({
-                        token: response.token,
-                        userInfo: response,
                         loginStatus: 'Connexion réussie',
                         loginMessage: 'Bravo tu es maintenant connecté !',
                         showLoginDialog: true,
@@ -101,10 +95,6 @@ export const useAuthStore = create<AuthState & AuthAction>()(
             logoutUser: async (user: User) => {
                 try {
                     await logoutApi(user);
-                    set({
-                        token: null,
-                        userInfo: null,
-                    });
                     localStorage.removeItem('auth-store');
                     console.log('Déconnexion réussie');
                 } catch (error) {
