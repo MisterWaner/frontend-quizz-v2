@@ -1,6 +1,8 @@
 export default function Wrapper({ children }: { children: React.ReactNode }) {
+
+
     return (
-        <main className='relative z-10 top-28 max-w-7xl mx-auto'>
+        <main className={`relative p-8 w-full mx-auto`}>
             {children}
         </main>
     );

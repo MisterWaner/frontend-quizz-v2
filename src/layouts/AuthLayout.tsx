@@ -1,19 +1,39 @@
-import PrivateRoute from '@/routes/Private/PrivateRoute';
 import { Outlet } from 'react-router';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import PrivateRoute from '@/routes/Private/PrivateRoute';
 import AuthWrapper from '@/components/Users/AuthWrapper';
-import UsedHeader from '@/components/Header/UsedHeader';
-import SideBar from '@/components/Users/SideBar/SideBar';
-export default function AuthLayout() {
-    return (
-        <PrivateRoute>
-            <UsedHeader />
-            <div className='relative grid grid-cols-6 gap-4 top-28 h-[calc(100dvh-112px)]'>
-                <SideBar />
+import Header from '@/components/Header/Header';
+import AppSideBar from '@/components/Users/SideBar/AppSideBar';
+import { useLayoutStore } from '@/store/LayoutStore';
 
-                <AuthWrapper>
-                    <Outlet />
-                </AuthWrapper>
-            </div>
-        </PrivateRoute>
+export default function AuthLayout() {
+    const isSidebarOpen = useLayoutStore((state) => state.isSidebarOpen);
+    const { openSidebar, closeSidebar } = useLayoutStore();
+
+    function handleSidebar() {
+        if (isSidebarOpen) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+        console.log(isSidebarOpen);
+    }
+
+    return (
+        <SidebarProvider>
+            <PrivateRoute>
+                <AppSideBar />
+                <Header />
+                <div className='relative top-28 w-full h-[calc(100dvh-112px)]'>
+                    <SidebarTrigger
+                        className='text-neutral-950'
+                        onClick={handleSidebar}
+                    />
+                    <AuthWrapper>
+                        <Outlet />
+                    </AuthWrapper>
+                </div>
+            </PrivateRoute>
+        </SidebarProvider>
     );
 }

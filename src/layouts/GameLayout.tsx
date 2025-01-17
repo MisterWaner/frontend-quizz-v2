@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router';
-import UsedHeader from '@/components/Header/UsedHeader';
+import Header from '@/components/Header/Header';
 
 export default function GameLayout() {
     return (
         <>
-            <UsedHeader />
+            <Header />
             <Outlet />
         </>
     );
