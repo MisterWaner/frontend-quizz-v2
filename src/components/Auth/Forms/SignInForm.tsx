@@ -103,11 +103,11 @@ export default function SignInForm() {
                         </FormItem>
                     )}
                 />
-                <div className='grid grid-cols-2 gap-4'>
+                <div className='flex justify-end'>
                     <Button
                         type='submit'
-                        className='col-start-2'
                         disabled={!form.formState.isValid}
+                        className='w-full xl:w-1/2'
                     >
                         S'inscrire
                     </Button>

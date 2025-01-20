@@ -51,7 +51,6 @@ export async function updateCurrentMonthScore(
     }
 
     const { id }: User = jwtDecode(token);
-
     try {
         const response = await fetch(
             `${BASE_URL}/users/${id}/current-month-score`,
@@ -59,7 +58,6 @@ export async function updateCurrentMonthScore(
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ score, currentMonthScore, id }),
             }

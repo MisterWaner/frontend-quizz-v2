@@ -96,6 +96,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
                 try {
                     await logoutApi(user);
                     localStorage.removeItem('auth-store');
+                    localStorage.removeItem('score');
                     console.log('Déconnexion réussie');
                 } catch (error) {
                     console.error(

@@ -13,6 +13,7 @@ import PlayingMainPage from './pages/Game/PlayingMainPage';
 import Ranks from './pages/Game/Ranks';
 import Quiz from './pages/Game/Quiz';
 import Account from './pages/Users/Account';
+import Settings from './pages/Users/Settings';
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                 </Route>
                 <Route element={<AuthLayout />}>
                     <Route path='/compte' element={<Account />} />
+                    <Route path='/parametres' element={<Settings />} />
                 </Route>
             </Routes>
         </BrowserRouter>

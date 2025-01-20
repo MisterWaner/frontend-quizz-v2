@@ -86,10 +86,11 @@ export default function LoginForm() {
                         </FormItem>
                     )}
                 />
-                <div className='grid grid-cols-2 gap-4'>
+                <div className='flex justify-end'>
                     <Button
                         type='submit'
                         disabled={!form.formState.isValid}
+                        className='w-full xl:w-1/2'
                     >
                         Se connecter
                     </Button>

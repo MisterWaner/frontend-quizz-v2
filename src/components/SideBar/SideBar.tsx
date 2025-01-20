@@ -12,28 +12,19 @@ import { menuLinks } from '@/lib/menu-links';
 import { useLayoutStore } from '@/store/LayoutStore';
 
 export default function SideBar() {
-    const isSidebarOpen = useLayoutStore((state) => state.isSidebarOpen);
     const { closeSidebar } = useLayoutStore();
-
-    const toggleSidebar = () => {
-        if (isSidebarOpen) {
-            closeSidebar();
-        }
-    }
 
     return (
         <Sidebar className='fixed bg-neutral-950 top-28 h-full'>
             <SidebarContent className='bg-neutral-950 text-white w-full'>
-                <SidebarGroup className=''>
+                <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuLinks.map((item) => (
                                 <SidebarMenuItem
                                     className='px-4 py-2'
                                     key={item.id}
-                                    onClick={() => {
-                                        toggleSidebar();
-                                    }}
+                                    onClick={() => closeSidebar()}
                                 >
                                     <SidebarMenuButton asChild>
                                         <Link to={item.path}>

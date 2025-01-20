@@ -79,7 +79,10 @@ export async function logoutUser(user: User | null) {
         console.log('Logout API response body:', responseBody);
 
         if (response.ok) {
+            Cookies.remove('token');
+            localStorage.removeItem('score');
             console.log('Déconnexion réussie');
+            window.location.reload();
         } else {
             throw new Error(
                 'Une erreur est survenue lors de la déconnexion côté serveur.'

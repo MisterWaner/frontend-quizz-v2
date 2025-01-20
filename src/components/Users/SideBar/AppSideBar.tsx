@@ -1,6 +1,5 @@
 import { Link } from 'react-router';
 import { LogOut } from 'lucide-react';
-import Cookies from 'js-cookie';
 import {
     Sidebar,
     SidebarContent,
@@ -24,18 +23,17 @@ export default function AppSideBar() {
     async function handleLogout() {
         if (userInfo) {
             try {
-                await logoutUser(userInfo);
                 const score = Number(localStorage.getItem('score'));
                 const currentMonthScore: number =
-                    userInfo?.currentMonthScore ?? 0;
+                    userInfo.currentMonthScore || 0;
                 const response = await updateCurrentMonthScore(
                     score,
                     currentMonthScore
                 );
+                await logoutUser(userInfo);
 
                 if (response.ok) {
-                    Cookies.remove('token');
-                    localStorage.removeItem('score');
+                    console.log('Déconnexion réussie');
                 } else {
                     throw new Error(
                         'Une erreur est survenue lors de la déconnexion'
@@ -51,7 +49,7 @@ export default function AppSideBar() {
     }
 
     return (
-        <Sidebar className='fixed bg-neutral-950 top-28  h-full'>
+        <Sidebar className='fixed bg-neutral-950 top-28 h-full'>
             <SidebarContent className='bg-neutral-950 text-white w-full'>
                 <SidebarGroup className=''>
                     <SidebarGroupContent>

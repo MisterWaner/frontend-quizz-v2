@@ -22,7 +22,7 @@ export default function MainLayout() {
         console.log(isSidebarOpen);
     }
     return (
-        <SidebarProvider className=''>
+        <SidebarProvider>
             {userInfo ? <AppSideBar /> : <SideBar />}
             <Header />
 
