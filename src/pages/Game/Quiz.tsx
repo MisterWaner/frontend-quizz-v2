@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import Wrapper from '@/components/Wrapper';
 import ContentSection from '@/components/ContentSection';
 import QuestionCard from '@/components/Game/Cards/QuestionCard';
+import QCMQuestionCard from '@/components/Game/Cards/QCMQuestionCard';
 import ProgressBar from '@/components/Game/ProgressBar';
 import ScoreIndicator from '@/components/Game/ScoreIndicator';
 import EndGameCard from '@/components/Game/Cards/EndGameCard';
@@ -12,6 +13,7 @@ import { useQuizStore } from '@/store/QuizStore';
 export default function Quiz() {
     const { type } = useParams();
 
+    const { name } = useQuizStore();
     const progress = useQuizStore((state) => state.progress);
     const totalProgress = useQuizStore((state) => state.totalProgress);
 
@@ -34,7 +36,11 @@ export default function Quiz() {
                         {type?.toLocaleUpperCase()}
                     </h2>
                     <ContentSection>
-                        <QuestionCard />
+                        {name === 'Mathématiques' ? (
+                            <QuestionCard />
+                        ) : (
+                            <QCMQuestionCard />
+                        )}
                     </ContentSection>
                     <ContentSection>
                         <ScoreIndicator />

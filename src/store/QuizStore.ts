@@ -1,17 +1,15 @@
 import { create } from 'zustand';
-import { getMathQuestions } from '@/services/fetchQuestions';
+import {
+    getMathQuestions,
+    getCapitalsQuestions,
+} from '@/services/fetchQuestions';
+import { Question, QCMQuestion } from '@/lib/types';
 
 export type QuizState = {
-    label: string;
+    name: string;
     isSelected: boolean;
     type: string;
-    questions:
-        | {
-              id: number;
-              label: string;
-              correctAnswer: number | string;
-          }[]
-        | null;
+    questions: Question[] | QCMQuestion[] | null;
     userAnswer: number | string;
     currentQuestionIndex: number;
     totalQuestions: number;
@@ -28,11 +26,11 @@ export type QuizState = {
 
 type QuizAction = {
     selectSubject: (
-        label: QuizState['label'],
+        name: QuizState['name'],
         isSelected: QuizState['isSelected'],
         type: QuizState['type']
     ) => void;
-    generateQuestion: (type: string) => Promise<void>;
+    generateQuestion: (type: QuizState['type'], name: QuizState['name']) => Promise<void>;
     handleNextQuestion: () => void;
     checkUserAnswer: (userAnswer: QuizState['userAnswer']) => void;
     incrementProgress: () => void;
@@ -48,15 +46,15 @@ type QuizAction = {
 };
 
 export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
-    label: '',
+    name: '',
     isSelected: false,
     type: '',
     questions: null,
     currentQuestionIndex: 0,
     totalQuestions: 10,
-    selectSubject(label, isSelected, type) {
-        set({ label, isSelected, type });
-        console.log(label, isSelected, type);
+    selectSubject(name, isSelected, type) {
+        set({ name, isSelected, type });
+        console.log(name, isSelected, type);
     },
     userAnswer: '',
     dialogTitle: '',
@@ -87,16 +85,35 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
         }
     },
     // Questions
-    async generateQuestion(type) {
+    async generateQuestion(type: string, name: string) {
         try {
-            const questions = (await getMathQuestions(type)).map(
-                (question) => ({
-                    id: question.id,
-                    label: question.label,
-                    correctAnswer: question.correctAnswer,
-                })
-            );
-            set({ questions, currentQuestionIndex: 0 });
+            // const { label } = get();
+            let questions: QCMQuestion[] | Question[] | null;
+            switch (name) {
+                case 'Mathématiques':
+                    questions = (await getMathQuestions(type)).map(
+                        (question) => ({
+                            id: question.id,
+                            label: question.label,
+                            correctAnswer: question.correctAnswer,
+                        })
+                    );
+                    set({ questions, currentQuestionIndex: 0 });
+                    break;
+                case 'Géographie':
+                    questions = (await getCapitalsQuestions(type)).map(
+                        (question) => ({
+                            id: question.id,
+                            label: question.label,
+                            options: question.options,
+                            correctAnswer: question.correctAnswer,
+                        })
+                    );
+                    set({ questions, currentQuestionIndex: 0 });
+                    break;
+                default:
+                    break;
+            }
         } catch (error) {
             console.error(
                 'Erreur lors de la récupération des questions',

@@ -11,6 +11,13 @@ export type Question = {
     correctAnswer: number | string;
 };
 
+export type QCMQuestion = {
+    id: number;
+    label: string;
+    options: string[];
+    correctAnswer: number;
+}
+
 export type User = {
     id?: string;
     username?: string;
