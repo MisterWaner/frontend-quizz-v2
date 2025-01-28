@@ -1,15 +1,20 @@
 import { Subject } from './types';
 
 type SubjectSelectorData = {
+    id: number;
     name: string;
-    subtype?: string;
-    subjects: Subject[];
+    subtype?: {
+        label: string;
+        subjects: Subject[];
+    }
+    subjects?: Subject[];
 };
 
 export const subjectSelectorData: SubjectSelectorData[] = [
     {
         name: 'Mathématiques',
-        subtype: 'Opérations',
+        id: 1,
+        //subtype: 'Opérations',
         subjects: [
             { id: 1, label: 'Addition', path: 'addition', type: 'addition' },
             {
@@ -34,9 +39,11 @@ export const subjectSelectorData: SubjectSelectorData[] = [
     },
     {
         name: 'Géographie',
-        subtype: 'Capitales',
-        subjects: [
-            {
+        id: 2,
+        subtype: {
+            label: 'Capitales',
+            subjects: [
+                {
                 id: 1,
                 label: 'Capitales Européennes',
                 path: 'capitales-europeennes',
@@ -72,6 +79,8 @@ export const subjectSelectorData: SubjectSelectorData[] = [
                 path: 'capitales-aleatoires',
                 type: 'random',
             },
-        ],
+            ]
+        }
+        
     },
 ];

@@ -33,7 +33,7 @@ export default function Quiz() {
             ) : (
                 <>
                     <h2 className='text-3xl font-bold text-center'>
-                        {type?.toLocaleUpperCase()}
+                        {type?.toUpperCase()}
                     </h2>
                     <ContentSection>
                         {name === 'Mathématiques' ? (

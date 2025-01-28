@@ -87,8 +87,8 @@ export const useQuizStore = create<QuizState & QuizAction>((set, get) => ({
     // Questions
     async generateQuestion(type: string, name: string) {
         try {
-            // const { label } = get();
             let questions: QCMQuestion[] | Question[] | null;
+
             switch (name) {
                 case 'Mathématiques':
                     questions = (await getMathQuestions(type)).map(
