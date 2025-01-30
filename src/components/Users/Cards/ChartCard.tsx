@@ -12,12 +12,12 @@ import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { chartData } from '@/lib/dummy-data';
 
 const chartConfig = {
-    desktop: {
-        label: 'Desktop',
+    lastTotal: {
+        label: 'Total N-1',
         color: '#2563eb',
     },
-    mobile: {
-        label: 'Mobile',
+    currentTotal: {
+        label: 'Total',
         color: '#60a5fa',
     },
 } satisfies ChartConfig;
@@ -25,10 +25,13 @@ const chartConfig = {
 const data = chartData;
 
 export default function ChartCard() {
+
+    const year = new Date().getFullYear();
+
     return (
         <Card className='max-md:w-full md:w-1/2 mt-10'>
             <CardHeader>
-                <CardTitle>Progression</CardTitle>
+                <CardTitle className='text-center text-xl font-bold'>{(year -1)} / {year}</CardTitle>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
@@ -44,13 +47,13 @@ export default function ChartCard() {
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <ChartLegend content={<ChartLegendContent />} />
                         <Bar
-                            dataKey='desktop'
-                            fill='var(--chart-color-desktop)'
+                            dataKey='lastTotal'
+                            fill='var(--chart-color-lastTotal)'
                             radius={4}
                         />
                         <Bar
-                            dataKey='mobile'
-                            fill='var(--chart-color-mobile)'
+                            dataKey='currentTotal'
+                            fill='var(--chart-color-currentTotal)'
                             radius={4}
                         />
                     </BarChart>

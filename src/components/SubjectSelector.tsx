@@ -1,69 +1,86 @@
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-    SelectSeparator,
-} from './ui/select';
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuItem,
+    DropdownMenuGroup,
+} from '@/components/ui/dropdown-menu';
+import { Button } from './ui/button';
 
 import { useQuizStore } from '@/store/QuizStore';
 import { subjectSelectorData } from '@/lib/subject-selector-data';
 import { Subject } from '@/lib/types';
-import { Button } from './ui/button';
 
 export default function SubjectSelector() {
     const subjectSelector = subjectSelectorData;
-    const navigate = useNavigate();
+
     const generateQuestion = useQuizStore((state) => state.generateQuestion);
     const setTimer = useQuizStore((state) => state.setTimer);
 
     return (
-        <div className='mt-4 grid grid-cols-2 gap-4 md:w-2/4 '>
+        <div className='mt-4 flex flex-col md:flex-row gap-4 md:w-2/4 '>
             {subjectSelector.map(({ name, id, subtype, subjects }) => (
-                <Select key={id}>
-                    <SelectTrigger className='font-bold'>
-                        <SelectValue placeholder={name} />
-                    </SelectTrigger>
-                    <SelectContent>
+                <DropdownMenu key={id}>
+                    <DropdownMenuTrigger className='font-bold' asChild>
+                        <Button className='md:w-96'>{name}</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className='md:w-96 w-56' align='start'>
                         {subtype ? (
-                            <SelectGroup>
-                                <SelectLabel>{subtype.label}</SelectLabel>
-                                <SelectSeparator />
+                            <DropdownMenuGroup>
+                                <DropdownMenuLabel>
+                                    {subtype.label}
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
                                 {subtype.subjects.map(
-                                    ({ id, label }: Subject) => (
-                                        <SelectItem key={id} value={label}>
-                                            {label}
-                                        </SelectItem>
+                                    ({ id, label, path, type }: Subject) => (
+                                        <DropdownMenuItem key={id}>
+                                            <Link
+                                                to={`/jouer/${path}`}
+                                                className='cursor-pointer'
+                                                onClick={() => {
+                                                    generateQuestion(
+                                                        type,
+                                                        name
+                                                    );
+                                                    setTimer(15);
+                                                }}
+                                            >
+                                                {label}
+                                            </Link>
+                                        </DropdownMenuItem>
                                     )
                                 )}
-                            </SelectGroup>
+                            </DropdownMenuGroup>
                         ) : (
-                            <SelectGroup>
-                                {subjects?.map(({ id, label }: Subject) => (
-                                    <SelectItem key={id} value={label}>
-                                        {label}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
+                            <DropdownMenuGroup>
+                                {subjects?.map(
+                                    ({ id, label, path, type }: Subject) => (
+                                        <DropdownMenuItem key={id} asChild>
+                                            <Link
+                                                to={`/jouer/${path}`}
+                                                className='cursor-pointer'
+                                                onClick={() => {
+                                                    generateQuestion(
+                                                        type,
+                                                        name
+                                                    );
+                                                    setTimer(15);
+                                                }}
+                                            >
+                                                {label}
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    )
+                                )}
+                            </DropdownMenuGroup>
                         )}
-                    </SelectContent>
-                </Select>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             ))}
-            <Button
-                className='w-full xl:w-1/2'
-                onClick={(type: string, name: string, path: string) => {
-                    generateQuestion(type, name);
-                    setTimer(15);
-                    navigate(`/jouer/${path}`);
-                }}
-            >
-                Sélectionner
-            </Button>
         </div>
     );
 }

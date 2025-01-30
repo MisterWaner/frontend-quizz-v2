@@ -13,8 +13,8 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
-        --chart-color-desktop: rgb(136, 132, 216);
-        --chart-color-mobile: rgb(130, 202, 157);
+        --chart-color-lastTotal: rgb(136, 132, 216);
+        --chart-color-currentTotal: rgb(130, 202, 157);
     }
     .dark {
         --sidebar-background: 240 5.9% 10%;
@@ -25,7 +25,7 @@
         --sidebar-accent-foreground: 240 4.8% 95.9%;
         --sidebar-border: 240 3.7% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;
-        --chart-color-desktop: rgb(136, 132, 216);
-        --chart-color-mobile: rgb(130, 202, 157);
+        --chart-color-lastTotal: rgb(136, 132, 216);
+        --chart-color-currentTotal: rgb(130, 202, 157);
     }
 }
